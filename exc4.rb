@@ -15,21 +15,25 @@ class Paperboy
   end
 
   def quota
-  @quota = 50 + (@experience / 2)
+  50.0 + (@experience / 2.0)
   end
 
   def deliver(start_adress, end_adress)
     delivered = 0
     delivered = (end_adress.to_f - start_adress.to_f + 1.00)
+    @earnings += mulla(delivered)
+    @experience += delivered
+
+
   end
 
-  def mulla
-    if delivered == 50
-      return @quota * 0.25
-    elsif delivered > @quota
-      return (@quota * 0.25) + ((delivered - @quota) * 0.50)
+  def mulla(num_houses)
+    if num_houses == quota
+      return quota * 0.25
+    elsif num_houses > quota
+      return (quota * 0.25) + ((num_houses - quota) * 0.50)
     else
-      return (delivered * 0.25) - 2.00
+      return (num_houses * 0.25) - 2.00
     end
   end
 
@@ -37,11 +41,11 @@ class Paperboy
 
 
   def report
-    "I'm #{name}, I've delivered #{deliver} papers and i've earned #{mulla} so far"
+    "I'm #{name}, I've delivered #{@experience} papers and i've earned #{mulla} so far"
   end
 
 end
 
 tommy = Paperboy.new("Tommy")
-tommy.deliver(29, 20)
+tommy.deliver(20,29)
 p tommy.report
